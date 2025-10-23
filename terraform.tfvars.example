@@ -1,0 +1,27 @@
+project_name          = "snowflake-pl-demo"
+resource_group_name   = "rg-snowflake-pl-demo"
+location              = "eastus2"
+vnet_address_space    = ["10.10.0.0/16"]
+subnet_address_prefixes = ["10.10.1.0/24"]
+
+# Obtain this alias from your Snowflake account (PrivateLink for Azure)
+# Example value format is provided by Snowflake and is region-specific.
+snowflake_privatelink_service_alias = "<paste-your-snowflake-azure-privatelink-service-alias>"
+
+# Typical zone for Snowflake on Azure
+private_dns_zone_names = [
+  "privatelink.azure.snowflakecomputing.com",
+]
+
+# Create A records pointing to the Private Endpoint IP for your account and services.
+# Set name to the host label (left of the zone). For example, if the full
+# FQDN is "xy12345.east-us-2.privatelink.azure.snowflakecomputing.com",
+# then name = "xy12345.east-us-2.privatelink.azure"
+dns_a_records = [
+  # {
+  #   zone_name = "privatelink.azure.snowflakecomputing.com"
+  #   name      = "<your-account-host-label>"
+  # }
+]
+
+
