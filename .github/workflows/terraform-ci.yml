@@ -15,6 +15,9 @@ on:
 jobs:
   terraform:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write   # for OIDC
+      contents: read
     defaults:
       run:
         working-directory: snowflake-privatelink-azure-terraform
@@ -40,16 +43,16 @@ jobs:
         id: validate
         run: terraform validate -no-color
 
-      # Optional: Enable plan when credentials are available via OIDC or secrets
-      # - name: Terraform plan
-      #   id: plan
-      #   env:
-      #     ARM_USE_OIDC: true
-      #     ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-      #     ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-      #     ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-      #   run: |
-      #     terraform init
-      #     terraform plan -no-color -input=false
+      - name: Terraform plan (Azure OIDC)
+        id: plan
+        if: ${{ hashFiles('snowflake-privatelink-azure-terraform/terraform.tfvars') != '' }}
+        env:
+          ARM_USE_OIDC: true
+          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+        run: |
+          terraform init -backend=false
+          terraform plan -no-color -input=false
 
 
