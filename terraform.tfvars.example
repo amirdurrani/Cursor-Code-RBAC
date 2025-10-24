@@ -24,4 +24,22 @@ dns_a_records = [
   # }
 ]
 
+# Optional: RBAC role assignments
+# Provide principal objectIds (users, groups, or service principals)
+# scope_type: one of "resource_group", "virtual_network", "subnet", "private_endpoint", "private_dns_zone"
+# role_name: built-in role name (e.g., "Reader", "Contributor", "Private DNS Zone Contributor") or a role definition GUID
+rbac_assignments = [
+  # {
+  #   scope_type   = "resource_group"
+  #   role_name    = "Reader"
+  #   principal_id = "00000000-0000-0000-0000-000000000000"
+  # },
+  # {
+  #   scope_type   = "private_dns_zone"
+  #   scope_name   = "privatelink.azure.snowflakecomputing.com"
+  #   role_name    = "Private DNS Zone Contributor"
+  #   principal_id = "00000000-0000-0000-0000-000000000000"
+  # }
+]
+
 

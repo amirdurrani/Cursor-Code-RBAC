@@ -55,3 +55,17 @@ variable "dns_a_records" {
 }
 
 
+variable "rbac_assignments" {
+  description = "RBAC role assignments to apply. Each item targets a scope type and principal/object, with an optional condition."
+  type = list(object({
+    scope_type   = string            # one of: "resource_group", "virtual_network", "subnet", "private_endpoint", "private_dns_zone"
+    scope_name   = optional(string)  # required for private_dns_zone (zone name) and used to disambiguate
+    role_name    = string            # e.g., 'Contributor', 'Reader', 'Private DNS Zone Contributor'
+    principal_id = string            # Azure AD objectId of user/group/app
+    condition    = optional(string)
+    condition_version = optional(string)
+  }))
+  default = []
+}
+
+
